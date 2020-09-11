@@ -6,6 +6,12 @@ app.use(express.json());
 //  app.use(express.urlencoded({ extended: true }));
 app.use(express.static('build'));
 
+function logger(req, res, next) {
+  console.log(`request fired ${req.url} ${req.method}`);
+  next();
+}
+app.use(logger);
+
 // get endpoint
 app.get('/api', (req, res, next) => {
   // don't forget: catch((error) => next(error));

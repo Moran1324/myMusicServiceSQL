@@ -18,5 +18,7 @@
         "react"
     ],
     "rules": {
+        "linebreak-style": ["error", "windows"],
+        "no-console": ["warn", { "allow": ["warn", "error"] }]
     }
 }
