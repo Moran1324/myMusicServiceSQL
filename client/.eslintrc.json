@@ -19,6 +19,7 @@
     ],
     "rules": {
         "linebreak-style": ["error", "windows"],
-        "no-console": ["warn", { "allow": ["warn", "error"] }]
+        "no-console": ["warn", { "allow": ["warn", "error"] }],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
     }
 }
