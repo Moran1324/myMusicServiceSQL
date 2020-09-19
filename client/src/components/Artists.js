@@ -9,7 +9,7 @@ function Artists() {
     topArtists()
       .then(
         (data) => {
-          console.log('here are the artists');
+          // console.log('here are the artists');
           setArtists(data[0]);
         },
         (error) => {

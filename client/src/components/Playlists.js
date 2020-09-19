@@ -9,7 +9,7 @@ function Playlists() {
     topPlaylists()
       .then(
         (data) => {
-          console.log('here are the playlists', data[0]);
+          // console.log('here are the playlists', data[0]);
           setPlaylists(data[0]);
         },
         (error) => {

@@ -9,7 +9,7 @@ function Albums() {
     topAlbums()
       .then(
         (data) => {
-          console.log('here are the albums', data);
+          // console.log('here are the albums', data);
           setAlbums(data);
         },
         (error) => {

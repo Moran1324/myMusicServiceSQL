@@ -9,7 +9,7 @@ function Songs() {
     topSongs()
       .then(
         (data) => {
-          console.log('here are the songs');
+          // console.log('here are the songs');
           setSongs(data[0]);
         },
         (error) => {

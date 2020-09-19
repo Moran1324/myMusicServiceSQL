@@ -1,18 +1,18 @@
 import { user } from './api-user';
 
-function topSongs(limit = 20) {
+function topSongs(limit = 200) {
   return user(`top_songs?limit=${limit}`);
 }
 
-function topArtists(limit = 20) {
+function topArtists(limit = 200) {
   return user(`top_artists?limit=${limit}`);
 }
 
-function topAlbums(limit = 20) {
+function topAlbums(limit = 200) {
   return user(`top_albums?limit=${limit}`);
 }
 
-function topPlaylists(limit = 20) {
+function topPlaylists(limit = 200) {
   return user(`top_playlists?limit=${limit}`);
 }
 

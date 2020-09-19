@@ -12,6 +12,7 @@
     },
     "rules": {
         "linebreak-style": ["error", "windows"],
-        "no-console": ["warn", { "allow": ["warn", "error"] }]
+        "no-console": ["warn", { "allow": ["warn", "error"] }],
+        "no-unused-vars": ["warn", { "vars":"local" }]
     }
 }
