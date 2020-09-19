@@ -1,0 +1,17 @@
+.artist-cover-img {
+  height: 100px; /* just for now */
+  width: 100px;
+  border-radius: 50%;
+}
+
+.album-cover-img {
+  height: 150px;
+  width: 150px;
+  border-radius: 10%;
+}
+
+.playlist-cover-img {
+  height: 150px;
+  width: 150px;
+  border-radius: 10%;
+}

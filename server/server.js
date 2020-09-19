@@ -16,7 +16,7 @@ app.use(logger);
 // get top 20 songs
 app.get('/top_songs', (req, res, next) => {
   mysqlCon.query(
-    'SELECT * FROM songs LIMIT 20;',
+    'call get_top_songs(?)', req.query.limit,
     (error, results, fields) => {
       if (error) {
         res.send(error.message);
@@ -79,7 +79,7 @@ app.delete('/song/:id', (req, res, next) => {
 // get top 20 artists
 app.get('/top_artists', (req, res, next) => {
   mysqlCon.query(
-    'SELECT * FROM artists LIMIT 20;',
+    'call get_top_artists(?);', req.query.limit,
     (error, results, fields) => {
       if (error) {
         res.send(error.message);
@@ -142,13 +142,13 @@ app.delete('/artist/:id', (req, res, next) => {
 // get top 20 albums
 app.get('/top_albums', (req, res, next) => {
   mysqlCon.query(
-    'SELECT * FROM albums LIMIT 20;',
+    'call get_top_albums(?);', req.query.limit,
     (error, results, fields) => {
       if (error) {
         res.send(error.message);
         throw error;
       }
-      res.json(results);
+      res.json(results[0]);
     },
   );
   // don't forget: catch((error) => next(error));
@@ -205,7 +205,7 @@ app.delete('/album/:id', (req, res, next) => {
 // get top 20 playlists
 app.get('/top_playlists', (req, res, next) => {
   mysqlCon.query(
-    'SELECT * FROM playlists LIMIT 20;',
+    'call get_top_playlists(?);', req.query.limit,
     (error, results, fields) => {
       if (error) {
         res.send(error.message);
