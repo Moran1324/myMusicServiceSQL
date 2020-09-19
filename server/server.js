@@ -22,7 +22,7 @@ app.get('/top_songs', (req, res, next) => {
         res.send(error.message);
         throw error;
       }
-      res.json(results);
+      res.json(results[0]);
     },
   );
   // don't forget: catch((error) => next(error));
@@ -85,7 +85,7 @@ app.get('/top_artists', (req, res, next) => {
         res.send(error.message);
         throw error;
       }
-      res.json(results);
+      res.json(results[0]);
     },
   );
   // don't forget: catch((error) => next(error));
@@ -211,7 +211,7 @@ app.get('/top_playlists', (req, res, next) => {
         res.send(error.message);
         throw error;
       }
-      res.json(results);
+      res.json(results[0]);
     },
   );
   // don't forget: catch((error) => next(error));

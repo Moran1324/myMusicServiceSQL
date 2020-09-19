@@ -15,3 +15,25 @@
   width: 150px;
   border-radius: 10%;
 }
+
+.embeded-song-link {
+  border-radius: 2.5%;
+}
+
+.carousel-artist-img {
+  height: 200px;
+  width: 200px;
+  border-radius: 2.5%;
+}
+
+.carousel-album-img {
+  height: 200px;
+  width: 200px;
+  border-radius: 2.5%;
+}
+
+.carousel-playlist-img {
+  height: 200px;
+  width: 200px;
+  border-radius: 2.5%;
+}
