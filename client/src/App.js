@@ -3,8 +3,8 @@ import {
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
 import './App.css';
-import Albums from './components/Albums';
 import Artists from './components/Artists';
+import Albums from './components/Albums';
 import Home from './components/Home';
 import Nav from './components/Nav';
 import Playlists from './components/Playlists';
