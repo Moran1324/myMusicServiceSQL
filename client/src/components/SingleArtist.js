@@ -1,12 +1,132 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams, useLocation } from 'react-router-dom';
+import { getSongsListById } from '../list-music-user';
 
 function SingleArtist() {
-  const id = useParams();
-  console.log(id);
+  const [artistSongs, setArtistSongs] = useState([]);
+  const [artistFeaturedSongs, setArtistFeaturedSongs] = useState([]);
+  const [artistName, setArtistName] = useState('');
+  const [featuredArtistName, setFeaturedArtistName] = useState('');
+
+  const { pathname } = useLocation();
+  const params = useParams();
+
+  useEffect(() => {
+    getSongsListById(pathname)
+    .then(
+      (data) => {
+        const mainSongs = data.filter(song => {
+          return song.artist_id === parseInt(params.id);
+        })
+        setArtistSongs(mainSongs);
+        setArtistName(mainSongs[0].artist_name);
+
+        const featuredSongs = data.filter(song => {
+          return song.featured_artist_id === parseInt(params.id);
+        });
+        if (featuredSongs.length < 1) return;
+        setArtistFeaturedSongs(featuredSongs);
+      },
+      (error) => {
+        console.error('there was an error', error);
+      },
+    );
+
+  }, [pathname]);
+
+  const hasFeaturedSongsChecker = (() => {
+    if (artistFeaturedSongs.length < 1) {
+      return false
+    } else return true
+  })();
+
   return (
-    <div>
-      <h1>SingleArtist</h1>
+    <div className="allArtistSongs">
+      <h1>{artistName}</h1>
+      <ul className="artist-songs-list" style={{ listStyleType: 'none' }}>
+        {artistSongs.map((song) => (
+          <li key={song.id}>
+            <div className="artist-song">
+              <Link to={`/song/${song.id}`} className="song-name">
+                Name:
+                {song.title}
+              </Link>
+              <Link to={`/artist/${song.artist_id}`} className="artist-name">
+                Artist:
+                {song.artist_name}
+              </Link>
+              {song.featured_artist
+                ? (
+                  <Link to={`/artist/${song.featured_artist_id}`} className="feartured-artist-name">
+                    Featured Artist:
+                    {song.featured_artist}
+                  </Link>
+                )
+                : null}
+              {song.album_name
+                ? (
+                  <Link to={`/album/${song.album_id}`} className="album-name">
+                    Album:
+                    {song.album_name}
+                  </Link>
+                )
+                : null}
+              <span className="song-like">
+                Like Checkbox
+              </span>
+              <span className="song-length">
+                Length:
+                {song.length}
+              </span>
+            </div>
+          </li>
+        ))}
+      </ul>
+      {hasFeaturedSongsChecker ? (
+        <>
+          <h2>Featured</h2>
+          <ul className="artist-featured-songs-list" style={{ listStyleType: 'none' }}>
+            {artistFeaturedSongs.map((song) => (
+              <li key={song.id}>
+                <div className="artist-song">
+                  <Link to={`/song/${song.id}`} className="song-name">
+                    Name:
+                    {song.title}
+                  </Link>
+                  <Link to={`/artist/${song.artist_id}`} className="artist-name">
+                    Artist:
+                    {song.artist_name}
+                  </Link>
+                  {song.featured_artist
+                    ? (
+                      <Link to={`/artist/${song.featured_artist_id}`} className="feartured-artist-name">
+                        Featured Artist:
+                        {song.featured_artist}
+                      </Link>
+                    )
+                    : null}
+                  {song.album_name
+                    ? (
+                      <Link to={`/album/${song.album_id}`} className="album-name">
+                        Album:
+                        {song.album_name}
+                      </Link>
+                    )
+                    : null}
+                  <span className="song-like">
+                    Like Checkbox
+                  </span>
+                  <span className="song-length">
+                    Length:
+                    {song.length}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null
+      }
     </div>
   );
 }

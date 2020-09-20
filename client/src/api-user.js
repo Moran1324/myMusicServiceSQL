@@ -11,8 +11,11 @@ function user(endpoint, { body, ...customConfig } = {}) {
   if (body) {
     config.body = JSON.stringify(body);
   }
+  if (endpoint[0] !== '/') {
+    endpoint = '/'.concat(endpoint);
+  }
 
-  return fetch(`/${endpoint}`, config)
+  return fetch(`${endpoint}`, config)
     .then(async (response) => {
       const data = await response.json();
       if (response.ok) {

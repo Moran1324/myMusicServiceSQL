@@ -16,7 +16,11 @@ function topPlaylists(limit = 200) {
   return user(`top_playlists?limit=${limit}`);
 }
 
+function getSongsListById (path) {
+  return user(`${path}`);
+}
+
 // eslint-disable-next-line import/prefer-default-export
 export {
-  topSongs, topArtists, topAlbums, topPlaylists,
+  topSongs, topArtists, topAlbums, topPlaylists, getSongsListById,
 };

@@ -94,10 +94,10 @@ app.get('/top_artists', (req, res, next) => {
 // get artist by id
 app.get('/artist/:id', (req, res, next) => {
   mysqlCon.query(
-    'SELECT * FROM artists WHERE id = ?;', req.params.id,
+    'call get_artist_songs(?);', req.params.id,
     (error, results, fields) => {
       if (error) next(error);
-      res.json(results);
+      res.json(results[0]);
     },
   );
   // don't forget: catch((error) => next(error));
