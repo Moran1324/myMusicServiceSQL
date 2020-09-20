@@ -34,6 +34,10 @@ app.get('/song/:id', (req, res, next) => {
     'SELECT * FROM songs WHERE id = ?;', req.params.id,
     (error, results, fields) => {
       if (error) next(error);
+      if (results[0].length < 1) {
+        res.status(400).send({ error: 'bad request' });
+        return;
+      }
       res.json(results);
     },
   );
@@ -97,6 +101,10 @@ app.get('/artist/:id', (req, res, next) => {
     'call get_artist_songs(?);', req.params.id,
     (error, results, fields) => {
       if (error) next(error);
+      if (results[0].length < 1) {
+        res.status(400).send({ error: 'bad request' });
+        return;
+      }
       res.json(results[0]);
     },
   );
@@ -157,10 +165,14 @@ app.get('/top_albums', (req, res, next) => {
 // get album by id
 app.get('/album/:id', (req, res, next) => {
   mysqlCon.query(
-    'SELECT * FROM albums WHERE id = ?;', req.params.id,
+    'call get_album_songs(?);', req.params.id,
     (error, results, fields) => {
       if (error) next(error);
-      res.json(results);
+      if (results[0].length < 1) {
+        res.status(400).send({ error: 'bad request' });
+        return;
+      }
+      res.json(results[0]);
     },
   );
   // don't forget: catch((error) => next(error));
@@ -220,10 +232,14 @@ app.get('/top_playlists', (req, res, next) => {
 // get playlist by id
 app.get('/playlist/:id', (req, res, next) => {
   mysqlCon.query(
-    'SELECT * FROM playlists WHERE playlist_id = ?;', req.params.id,
+    'call get_playlist_songs(?);', req.params.id,
     (error, results, fields) => {
       if (error) next(error);
-      res.json(results);
+      if (results[0].length < 1) {
+        res.status(400).send({ error: 'bad request' });
+        return;
+      }
+      res.json(results[0]);
     },
   );
   // don't forget: catch((error) => next(error));
@@ -279,7 +295,7 @@ const errorHandler = (error, request, response, next) => {
 
   // build here your error handler
   if (error.code === 'ER_BAD_FIELD_ERROR') {
-    return response.status(400).send({ error: 'wrong id was inserted' });
+    return response.status(400).send({ error: 'requested data was not found' });
   }
   if (error.field === 'ER_NO_DEFAULT_FOR_FIELD') {
     return response.status(400).send({ error: 'necessary data was not sent' });
