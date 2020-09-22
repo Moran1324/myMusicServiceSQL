@@ -11,7 +11,7 @@ function SingleSong() {
   const [songArtist, setSongArtist] = useState('');
   const [songAlbum, setSongAlbum] = useState('');
   const [songImg, setSongImg] = useState('');
-  const [songLink, setSongLink] = useState('');
+  const [songsLinkArray, setSongsLinkArray] = useState([])
   const [queueSongs, setQueueSongs] = useState([])
   const [error, setError] = useState(false);
 
@@ -27,7 +27,6 @@ function SingleSong() {
       setSongAlbum(songDataObj.album_name);
       setSongImg(songDataObj.album_img);
     } else {setSongImg(songDataObj.artist_img)};
-    setSongLink(songDataObj.youtube_link);
   }
 
   useEffect(() => {
@@ -45,6 +44,13 @@ function SingleSong() {
         })
         // console.log('songimg', songImg)
         setQueueSongs(tempQueue)
+        let tempLinksArray = tempQueue.map(song => {
+          return song.youtube_link
+        });
+        // console.log('links 1', tempLinksArray);
+        tempLinksArray.unshift(tempSong.youtube_link);
+        // console.log('links 2', tempLinksArray);
+        setSongsLinkArray(tempLinksArray);
       },
       (error) => {
         console.error('there was an error', error);
@@ -52,7 +58,7 @@ function SingleSong() {
         setError(true);
       },
     );
-  }, [pathname, search, songImg, params]);
+  }, [pathname, search, params]);
 
   return (
     <>
@@ -60,7 +66,7 @@ function SingleSong() {
       <div className="song-page">
         <div className="song-player">
           <ReactPlayer
-          url={songLink}
+          url={songsLinkArray}
           playing
           controls
           width='300px'
