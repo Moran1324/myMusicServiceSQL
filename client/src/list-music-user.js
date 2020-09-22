@@ -17,7 +17,7 @@ function topPlaylists(limit = 200) {
 }
 
 function getSongsListById (path) {
-  return user(`${path}`);
+  return user(path);
 }
 
 // eslint-disable-next-line import/prefer-default-export

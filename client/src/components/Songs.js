@@ -28,7 +28,7 @@ function Songs() {
           {songs.map((song) => (
             <li key={song.id}>
               <div className="song">
-                <Link to={`/song/${song.id}`} className="song-name">
+                <Link to={`/song/${song.id}?type=allSongs`} className="song-name">
                   Name:
                   {song.title}
                 </Link>

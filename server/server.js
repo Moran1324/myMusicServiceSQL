@@ -4,7 +4,7 @@ const mysqlCon = require('./sqlConnection');
 const app = express();
 
 app.use(express.json());
-//  app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
 app.use(express.static('build'));
 
 function logger(req, res, next) {
@@ -30,15 +30,31 @@ app.get('/top_songs', (req, res, next) => {
 
 // get song by id
 app.get('/song/:id', (req, res, next) => {
+  console.log(req.query);
+  if (req.query.type === 'allSongs') {
+    mysqlCon.query(
+      'call get_all_songs();',
+      (error, results, fields) => {
+        if (error) next(error);
+        if (results[0].length < 1) {
+          res.status(400).send({ error: 'bad request' });
+          return;
+        }
+        res.json(results[0]);
+      },
+    );
+    return;
+  }
+
   mysqlCon.query(
-    'SELECT * FROM songs WHERE id = ?;', req.params.id,
+    `call get_${req.query.type}_songs(?);`, [req.query.id],
     (error, results, fields) => {
       if (error) next(error);
       if (results[0].length < 1) {
         res.status(400).send({ error: 'bad request' });
         return;
       }
-      res.json(results);
+      res.json(results[0]);
     },
   );
   // don't forget: catch((error) => next(error));

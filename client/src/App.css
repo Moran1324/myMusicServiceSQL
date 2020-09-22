@@ -54,3 +54,14 @@
   height: 300px;
   border-radius: 2.5%;
 }
+
+.song-img {
+  height: 100px;
+  border-radius: 2.5%;
+}
+
+.queue-song-img {
+  height: 50px;
+  width: 50px;
+  border-radius: 1%;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import Carousel from 'react-elastic-carousel';
 import { Link } from 'react-router-dom';
+import EmbedYoutube from './EmbedYoutube';
 
 function SongsCarousel({ songs }) {
   const breakPoints = [
@@ -18,18 +19,9 @@ function SongsCarousel({ songs }) {
       <Carousel breakPoints={breakPoints}>
         {songs.map((song) => (
           <div className="carousel-song-card" key={song.id}>
-            <iframe
-              title={song.id}
-              src={song.youtube_link.replace('watch?v=', 'embed/').split('&list')[0]}
-              width="200"
-              height="200"
-              frameBorder="0"
-              allowtransparency="true"
-              allow="encrypted-media"
-              className="embeded-song-link"
-            />
+            <EmbedYoutube link={song.youtube_link} title={song.id} className="embeded-song-link" />
             <h4>
-              <Link to={`/song/${song.id}`}>{song.title}</Link>
+              <Link to={`/song/${song.id}?type=allSongs`}>{song.title}</Link>
             </h4>
             <div className="carousel-song-artist">
               <Link to={`/artist/${song.artist_id}`}>{song.artist_name}</Link>

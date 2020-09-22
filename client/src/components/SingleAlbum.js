@@ -31,9 +31,9 @@ function SingleAlbum() {
         
 
         const tempLengthsArray = [];
-        data.map(song => {
+        data.map(song => (
           tempLengthsArray.push(song.length)
-        });
+        ));
         // console.log(totalLengthCalc(tempLengthsArray));
         setAlbumLength(totalLengthCalc(tempLengthsArray));
       },
@@ -51,23 +51,23 @@ function SingleAlbum() {
         <Redirect to="/album" /> :
         <div className="album-page">
           <div className="album-header">
-            <img src={`${albumImg}`} className="album-img"/>
+            <img src={`${albumImg}`} alt="Album" className="album-img"/>
             <h1>{albumName}</h1>
             <Link to={`/artist/${albumArtistId}`} className="album-artist">
               {albumArtist}
             </Link>
             <span className="album-year">{albumYear}</span>
             <div className="album-info">
-              <span className="album-count">{albumSongsCount}</span>
+              <span className="album-count">{`${albumSongsCount} songs`}</span>
               {' - '}
-              <span className="album-lenght">{albumLength}</span>
+              <span className="album-lenght">{`Total ${albumLength}`}</span>
             </div>
           </div>
           <ul className="artist-songs-list" style={{ listStyleType: 'none' }}>
             {albumSongs.map((song) => (
-              <li key={song.id}>
+              <li key={song.song_id}>
                 <div className="album-song">
-                  <Link to={`/song/${song.id}`} className="song-name">
+                  <Link to={`/song/${song.song_id}?type=album&id=${song.album_id}`} className="song-name">
                     Name:
                     {song.title}
                   </Link>

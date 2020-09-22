@@ -24,10 +24,10 @@ function SinglePlaylist() {
         setPlaylistSongsCount(data.length);        
 
         const tempLengthsArray = [];
-        data.map(song => {
+        data.map(song => (
           tempLengthsArray.push(song.length)
-        });
-        console.log(totalLengthCalc(tempLengthsArray));
+        ));
+        // console.log(totalLengthCalc(tempLengthsArray));
         setPlaylistLength(totalLengthCalc(tempLengthsArray));
       },
       (error) => {
@@ -42,19 +42,19 @@ function SinglePlaylist() {
       {error ? <Redirect to="/playlist" /> :
         <div className="playlist-page">
           <div className="playlist-header">
-            <img src={`${playlistImg}`} className="playlist-img"/>
+            <img src={`${playlistImg}`} alt="Playlist" className="playlist-img"/>
             <h1>{playlistName}</h1>
             <div className="playlist-info">
-              <span className="playlist-count">{playlistSongsCount}</span>
+              <span className="playlist-count">{`${playlistSongsCount} songs`}</span>
               {' - '}
-              <span className="playlist-lenght">{playlistLength}</span>
+              <span className="playlist-lenght">{`Total ${playlistLength}`}</span>
             </div>
           </div>
           <ul className="playlist-songs-list" style={{ listStyleType: 'none' }}>
             {playlistSongs.map((song) => (
-              <li key={song.id}>
+              <li key={song.song_id}>
                 <div className="playlist-song">
-                  <Link to={`/song/${song.id}`} className="song-name">
+                  <Link to={`/song/${song.song_id}?type=playlist&id=${song.playlist_id}`} className="song-name">
                     Name:
                     {song.title}
                   </Link>

@@ -47,6 +47,11 @@ function App() {
           <Route exact path="/playlist/:id">
             <SinglePlaylist />
           </Route>
+          <Route>
+            <div>
+              <h1>Errot 404, Page Not Found</h1>
+            </div>
+          </Route>
         </Switch>
       </Router>
     </div>

@@ -36,7 +36,7 @@ function SingleArtist() {
         setError(true);
       },
     );
-  }, [pathname]);
+  }, [pathname, params.id]);
 
   const hasFeaturedSongsChecker = (() => {
     if (artistFeaturedSongs.length < 1) {
@@ -49,13 +49,13 @@ function SingleArtist() {
       {error ? 
         <Redirect to="/artist" /> :
         <div className="artist-page">
-          <img src={`${artistImg}`} className="artist-img"/>
+          <img src={`${artistImg}`} alt="Artist" className="artist-img"/>
           <h1>{artistName}</h1>
           <ul className="artist-songs-list" style={{ listStyleType: 'none' }}>
             {artistSongs.map((song) => (
-              <li key={song.id}>
+              <li key={song.song_id}>
                 <div className="artist-song">
-                  <Link to={`/song/${song.id}`} className="song-name">
+                  <Link to={`/song/${song.song_id}?type=artist&id=${song.artist_id}`} className="song-name">
                     Name:
                     {song.title}
                   </Link>
@@ -95,9 +95,9 @@ function SingleArtist() {
               <h2>Featured</h2>
               <ul className="artist-featured-songs-list" style={{ listStyleType: 'none' }}>
                 {artistFeaturedSongs.map((song) => (
-                  <li key={song.id}>
+                  <li key={song.song_id}>
                     <div className="artist-song">
-                      <Link to={`/song/${song.id}`} className="song-name">
+                      <Link to={`/song/${song.song_id}`} className="song-name">
                         Name:
                         {song.title}
                       </Link>
