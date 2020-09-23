@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { topPlaylists } from '../list-music-user';
+import { Link, useLocation } from 'react-router-dom';
+import { getTops } from '../list-music-user';
 import PlaylistsCarousel from './PlaylistsCarousel';
 
 function Playlists() {
   const [playlists, setPlaylists] = useState([]);
 
+  const { pathname } = useLocation();
+
   useEffect(() => {
-    topPlaylists()
+    getTops(pathname)
       .then(
         (data) => {
           // console.log('here are the playlists', data[0]);
@@ -18,7 +20,7 @@ function Playlists() {
         },
 
       );
-  }, []);
+  }, [pathname]);
   return (
     <>
       <PlaylistsCarousel playlists={playlists} />

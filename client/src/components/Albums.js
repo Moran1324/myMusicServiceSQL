@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { topAlbums } from '../list-music-user';
+import { Link, useLocation } from 'react-router-dom';
+import { getTops } from '../list-music-user';
 import AlbumsCarousel from './AlbumsCarousel';
 
 function Albums() {
   const [albums, setAlbums] = useState([]);
 
+  const { pathname } = useLocation();
+
   useEffect(() => {
-    topAlbums()
+    getTops(pathname)
       .then(
         (data) => {
           // console.log('here are the albums', data);
@@ -17,7 +19,7 @@ function Albums() {
           console.error('there was an error', error);
         },
       );
-  }, []);
+  }, [pathname]);
   return (
     <>
       <AlbumsCarousel albums={albums} />
