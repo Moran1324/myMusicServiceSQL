@@ -24,7 +24,7 @@ router.get('/top', (req, res, next) => {
 
 // get song by id
 router.get('/:id', (req, res, next) => {
-  console.log(req.query);
+  // console.log(req.query);
   if (req.query.type === 'allSongs') {
     mysqlCon.query(
       'call get_all_songs();',
