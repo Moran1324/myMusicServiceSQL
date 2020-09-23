@@ -15,7 +15,7 @@ function user(endpoint, { body, ...customConfig } = {}) {
     endpoint = '/'.concat(endpoint);
   }
 
-  return fetch(`${endpoint}`, config)
+  return fetch(`/api${endpoint}`, config)
     .then(async (response) => {
       const data = await response.json();
       if (response.ok) {

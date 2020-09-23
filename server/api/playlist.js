@@ -23,7 +23,7 @@ router.get('/top', (req, res, next) => {
 });
 
 // get playlist by id
-router.get('/playlist/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   mysqlCon.query(
     'call get_playlist_songs(?);', req.params.id,
     (error, results, fields) => {
@@ -39,7 +39,7 @@ router.get('/playlist/:id', (req, res, next) => {
 });
 
 // add new playlist to database
-router.post('/playlist', (req, res, next) => {
+router.post('/', (req, res, next) => {
   mysqlCon.query(
     'INSERT INTO playlists SET ?', req.body,
     (error, results, fields) => {
@@ -51,7 +51,7 @@ router.post('/playlist', (req, res, next) => {
 });
 
 // update playlist details in database
-router.put('/playlist/:id', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
   mysqlCon.query(
     'UPDATE playlists SET ? WHERE playlist_id = ?', [req.body, req.params.id],
     (error, results, fields) => {
@@ -63,7 +63,7 @@ router.put('/playlist/:id', (req, res, next) => {
 });
 
 // delete playlist from database
-router.delete('/playlist/:id', (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
   mysqlCon.query(
     'DELETE FROM playlists WHERE playlist_id = ?', req.params.id,
     (error, results, fields) => {

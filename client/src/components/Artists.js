@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { topArtists } from '../list-music-user';
+import { Link, useLocation } from 'react-router-dom';
+import { getTops } from '../list-music-user';
 import ArtistsCarousel from './ArtistsCarousel';
 
 function Artists() {
   const [artists, setArtists] = useState([]);
 
+  const { pathname } = useLocation();
+
   useEffect(() => {
-    topArtists()
+    getTops(pathname)
       .then(
         (data) => {
           // console.log('here are the artists');
@@ -17,7 +19,7 @@ function Artists() {
           console.error('there was an error', error);
         },
       );
-  }, []);
+  }, [pathname]);
   return (
     <>
       <ArtistsCarousel artists={artists} />

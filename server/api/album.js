@@ -23,7 +23,7 @@ router.get('/top', (req, res, next) => {
 });
 
 // get album by id
-router.get('/album/:id', (req, res, next) => {
+router.get('/:id', (req, res, next) => {
   mysqlCon.query(
     'call get_album_songs(?);', req.params.id,
     (error, results, fields) => {
@@ -39,7 +39,7 @@ router.get('/album/:id', (req, res, next) => {
 });
 
 // add new album to database
-router.post('/album', (req, res, next) => {
+router.post('/', (req, res, next) => {
   mysqlCon.query(
     'INSERT INTO albums SET ?', req.body,
     (error, results, fields) => {
@@ -51,7 +51,7 @@ router.post('/album', (req, res, next) => {
 });
 
 // update album details in database
-router.put('/album/:id', (req, res, next) => {
+router.put('/:id', (req, res, next) => {
   mysqlCon.query(
     'UPDATE albums SET ? WHERE id = ?', [req.body, req.params.id],
     (error, results, fields) => {
@@ -63,7 +63,7 @@ router.put('/album/:id', (req, res, next) => {
 });
 
 // delete album from database
-router.delete('/album/:id', (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
   mysqlCon.query(
     'DELETE FROM albums WHERE id = ?', req.params.id,
     (error, results, fields) => {

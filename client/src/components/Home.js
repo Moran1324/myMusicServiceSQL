@@ -14,7 +14,7 @@ function Home() {
   const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
-    const getTops = (async () => {
+    const getAllTops = (async () => {
       try {
         const artistsData = await topArtists(20);
         const albumsData = await topAlbums(20);

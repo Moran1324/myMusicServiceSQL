@@ -1,19 +1,23 @@
 import { user } from './api-user';
 
+function getTops(path, limit = 200) {
+  return user(`${path}/top?limit=${limit}`);
+}
+
 function topSongs(limit = 200) {
-  return user(`top_songs?limit=${limit}`);
+  return user(`song/top?limit=${limit}`);
 }
 
 function topArtists(limit = 200) {
-  return user(`top_artists?limit=${limit}`);
+  return user(`artist/top?limit=${limit}`);
 }
 
 function topAlbums(limit = 200) {
-  return user(`top_albums?limit=${limit}`);
+  return user(`album/top?limit=${limit}`);
 }
 
 function topPlaylists(limit = 200) {
-  return user(`top_playlists?limit=${limit}`);
+  return user(`playlist/top?limit=${limit}`);
 }
 
 function getSongsListById (path) {
@@ -22,5 +26,5 @@ function getSongsListById (path) {
 
 // eslint-disable-next-line import/prefer-default-export
 export {
-  topSongs, topArtists, topAlbums, topPlaylists, getSongsListById,
+  getTops, topSongs, topArtists, topAlbums, topPlaylists, getSongsListById,
 };
