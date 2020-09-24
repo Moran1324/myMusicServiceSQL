@@ -1,7 +1,24 @@
 const { Router } = require('express');
 const mysqlCon = require('../sqlConnection');
+// const { Artist } = require('../models');
 
 const router = Router();
+
+router.get('/test', async (req, res) => {
+  mysqlCon.query(
+    `
+    SELECT song_id, playlist_id
+    FROM songs_in_playlists;
+    `,
+    (error, results, fields) => {
+      if (error) {
+        res.send(error.message);
+        throw error;
+      }
+      res.json(results);
+    },
+  );
+});
 
 // get top 20 artists
 router.get('/top', (req, res, next) => {
