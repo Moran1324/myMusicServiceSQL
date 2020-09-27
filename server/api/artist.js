@@ -1,24 +1,60 @@
 const { Router } = require('express');
+const { Op } = require('sequelize');
 const mysqlCon = require('../sqlConnection');
-// const { Artist } = require('../models');
+const { Artist, Song } = require('../models');
 
 const router = Router();
 
-router.get('/test', async (req, res) => {
-  mysqlCon.query(
-    `
-    SELECT song_id, playlist_id
-    FROM songs_in_playlists;
-    `,
-    (error, results, fields) => {
-      if (error) {
-        res.send(error.message);
-        throw error;
-      }
-      res.json(results);
-    },
-  );
+router.get('/test/:id', async (req, res, next) => {
+  try {
+    const artistSongs = await Song.findAll({
+      where: {
+        [Op.or]: [
+          { artistId: req.params.id },
+          { featuredArtistId: req.params.id },
+        ],
+      },
+      include: ['artist', 'album', 'featuredArtist'],
+    });
+    res.json(artistSongs);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
+
+// SEQUELIZE ENDPOINTS
+
+/*
+
+// get all artists
+router.get('/all', async (req, res, next) => {
+  try {
+    const artists = await Artist.findAll();
+    res.json(artists);
+  } catch (error) {
+    res.send(error.message);
+  }
+});
+
+// get top artists
+router.get('/top', async (req, res, next) => {
+  if (req.query.limit == null) {
+    res.status(400).send({ error: 'bad request' });
+    return;
+  }
+  const topLimit = parseInt(req.query.limit);
+  try {
+    const artists = await Artist.findAll({ limit: topLimit });
+    console.log(artists);
+    res.json(artists);
+  } catch (error) {
+    res.send(error.message);
+  }
+});
+
+*/
+
+// MYSQL ENDPOINTS
 
 // get top 20 artists
 router.get('/top', (req, res, next) => {
