@@ -18,13 +18,13 @@ function AlbumsCarousel({ albums }) {
         {albums.map((album) => (
           <div className="carousel-album-card" key={album.id}>
             <Link to={`/album/${album.id}`}>
-              <img src={`${album.cover_img}`} alt="Album" className="carousel-album-img" />
-              <h4 className="carousel-album-name">{album.album_name}</h4>
+              <img src={`${album.coverImg}`} alt="Album" className="carousel-album-img" />
+              <h4 className="carousel-album-name">{album.artist.artistName}</h4>
             </Link>
             <div className="carousel-album-artist">
-              <Link to={`/artist/${album.artist_id}`}>{album.artist_name}</Link>
+              <Link to={`/artist/${album.artistId}`}>{album.artist.artistName}</Link>
               {' - '}
-              <span className="carousel-album-launch-year">{(new Date(album.launch_date).getFullYear())}</span>
+              <span className="carousel-album-launch-year">{(new Date(album.releasedAt).getFullYear())}</span>
             </div>
           </div>
         ))}

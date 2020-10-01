@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { getTops } from '../list-music-user';
+import { getTops, getAll } from '../list-music-user';
 import ArtistsCarousel from './ArtistsCarousel';
 
 function Artists() {
   const [artists, setArtists] = useState([]);
+  const [topArtists, setTopArtists] = useState([]);
 
   const { pathname } = useLocation();
 
   useEffect(() => {
-    getTops(pathname)
+    getAll(pathname)
       .then(
         (data) => {
           // console.log('here are the artists');
@@ -19,10 +20,21 @@ function Artists() {
           console.error('there was an error', error);
         },
       );
+      
+      getTops(pathname, 20)
+        .then(
+          (data) => {
+            // console.log('here are the artists');
+            setTopArtists(data);
+          },
+          (error) => {
+            console.error('there was an error', error);
+          },
+        );
   }, [pathname]);
   return (
     <>
-      <ArtistsCarousel artists={artists} />
+      <ArtistsCarousel artists={topArtists} />
       <h2 style={{ marginLeft: '60px' }}>All Artists</h2>
       <ul className="artists-list" style={{ listStyleType: 'none' }}>
         <div className="all-artists">
@@ -30,8 +42,8 @@ function Artists() {
             <li key={artist.id}>
               <div className="artist">
                 <Link to={`/artist/${artist.id}`}>
-                  <img src={`${artist.cover_img}`} alt="Artist" className="artist-cover-img" />
-                  <span className="artist-name">{artist.artist_name}</span>
+                  <img src={`${artist.coverImg}`} alt="Artist" className="artist-cover-img" />
+                  <span className="artist-name">{artist.artistName}</span>
                 </Link>
               </div>
             </li>

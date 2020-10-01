@@ -3,6 +3,7 @@ import { Link, useParams, useLocation, Redirect } from 'react-router-dom';
 import { getSongsListById } from '../list-music-user';
 import ReactPlayer from 'react-player';
 import SongsQueue from './SongsQueue';
+import queryString from 'query-string';
 
 function SingleSong() {
   const [currentSong, setCurrentSong] = useState({});
@@ -22,34 +23,30 @@ function SingleSong() {
     setCurrentSong(songDataObj);
     setSongName(songDataObj.title);
     setSongLength(songDataObj.length);
-    setSongArtist(songDataObj.artist_name)
-    if (songDataObj.album_id) {
-      setSongAlbum(songDataObj.album_name);
-      setSongImg(songDataObj.album_img);
-    } else {setSongImg(songDataObj.artist_img)};
+    setSongArtist(songDataObj.artist.artistName)
+    if (songDataObj.albumId) {
+      setSongAlbum(songDataObj.album.name);
+      setSongImg(songDataObj.album.coverImg);
+    } else {setSongImg(songDataObj.artist.coverImg)};
   }
 
   useEffect(() => {
     getSongsListById(`${pathname}${search}`)
     .then(
       (data) => {
-        // console.log('data', data)
-        // console.log('params', params)
         const tempSong = data.find(song => {
-          return parseInt(song.song_id) === parseInt(params.id)
+          return parseInt(song.id) === parseInt(params.id)
         })
         currentSongSetter(tempSong)
         const tempQueue = data.filter(song => {
-          return parseInt(song.song_id) !== parseInt(params.id)
+          return parseInt(song.id) !== parseInt(params.id)
         })
-        // console.log('songimg', songImg)
         setQueueSongs(tempQueue)
         let tempLinksArray = tempQueue.map(song => {
-          return song.youtube_link
+          return song.youtubeLink
         });
         // console.log('links 1', tempLinksArray);
-        tempLinksArray.unshift(tempSong.youtube_link);
-        // console.log('links 2', tempLinksArray);
+        tempLinksArray.unshift(tempSong.youtubeLink);
         setSongsLinkArray(tempLinksArray);
       },
       (error) => {
@@ -60,9 +57,18 @@ function SingleSong() {
     );
   }, [pathname, search, params]);
 
+  const redirectByHistory = () => {
+    const queryObj = queryString.parse(search, {parseNumbers: true})
+    if (!queryObj.id) {
+      return '/song';
+    } else {
+      return `/${queryObj.type}/${queryObj.id}`
+    }
+  }
+
   return (
     <>
-      {error ? <Redirect to="/" /* implement where user came from using querry params */ /> :
+      {error ? <Redirect to={redirectByHistory} /* implement where user came from using querry params */ /> :
       <div className="song-page">
         <div className="song-player">
           <ReactPlayer
@@ -79,9 +85,9 @@ function SingleSong() {
             <img src={songImg} alt="Album or Artist" className="song-img" />
           </span>
           <div className="song-artist">
-          <Link to={`/artist/${currentSong.artist_id}`}>{songArtist}</Link>
+          <Link to={`/artist/${currentSong.artistId}`}>{songArtist}</Link>
           {songAlbum ?
-          <Link to={`/artist/${currentSong.album_id}`}>{' - '}{songAlbum}</Link> 
+          <Link to={`/artist/${currentSong.albumId}`}>{' - '}{songAlbum}</Link> 
            : null}
           </div>
           <span className="song-length">{songLength}</span>

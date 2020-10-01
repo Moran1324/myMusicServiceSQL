@@ -1,5 +1,9 @@
 import { user } from './api-user';
 
+function getAll(path) {
+  return user(`${path}/all`);
+}
+
 function getTops(path, limit = 200) {
   return user(`${path}/top?limit=${limit}`);
 }
@@ -26,5 +30,5 @@ function getSongsListById (path) {
 
 // eslint-disable-next-line import/prefer-default-export
 export {
-  getTops, topSongs, topArtists, topAlbums, topPlaylists, getSongsListById,
+  getTops, topSongs, topArtists, topAlbums, topPlaylists, getSongsListById, getAll,
 };

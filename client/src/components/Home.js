@@ -24,7 +24,6 @@ function Home() {
         setAlbums(albumsData);
         setSongs(songsData);
         setPlaylists(playlistsData);
-        console.log(playlistsData);
       } catch (error) {
         console.error('there was an error', error);
       }

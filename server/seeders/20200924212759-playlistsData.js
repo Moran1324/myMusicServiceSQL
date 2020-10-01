@@ -43,7 +43,7 @@ module.exports = {
         "created_at": new Date(),
         "updated_at": new Date(),
         "name": "Cleaning",
-        "cover_img": "https://lh3.googleusercontent.com/proxy/NCextqIbypYhNkndJeRNo9cQyhSE2Gl1R1koN3jOnZGQHg0IRXIVL9YSw1B2fvIDShBdc7tnn3I7JyW99r2QwskP7wrPHMHu7NfvZczenlicYk_XfkFvXpSYvKdRhFggiGV9qnokUEOWYDWYK6tTrFvXsqwih_PdFsrZfPcTjyQ"
+        "cover_img": "http://jazz88online.org/wp-content/uploads/2017/09/bigstock-Funny-woman-with-mop-Female-c-52762261_0-768x560.jpg"
       },
       {
         "created_at": new Date(),

@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     coverImg: DataTypes.TEXT,
     artistId: DataTypes.INTEGER,
-    launchedAt: DataTypes.DATE,
+    releasedAt: DataTypes.DATE,
     deletedAt: DataTypes.DATE
   }, {
     sequelize,

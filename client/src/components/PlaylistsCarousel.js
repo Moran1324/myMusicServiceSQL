@@ -16,10 +16,10 @@ function AlbumsCarousel({ playlists }) {
       <h1 style={{ marginLeft: '60px' }}>Top Playlists</h1>
       <Carousel breakPoints={breakPoints}>
         {playlists.map((playlist) => (
-          <div className="carousel-playlist-card" key={playlist.playlist_id}>
-            <Link to={`/playlist/${playlist.playlist_id}`}>
-              <img src={`${playlist.cover_img}`} alt="Playlist" className="carousel-playlist-img" />
-              <h4 className="carousel-playlist-name">{playlist.playlist_name}</h4>
+          <div className="carousel-playlist-card" key={playlist.id}>
+            <Link to={`/playlist/${playlist.id}`}>
+              <img src={`${playlist.coverImg}`} alt="Playlist" className="carousel-playlist-img" />
+              <h4 className="carousel-playlist-name">{playlist.name}</h4>
             </Link>
           </div>
         ))}

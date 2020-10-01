@@ -17,10 +17,14 @@ function SinglePlaylist() {
     getSongsListById(pathname)
     .then(
       (data) => {
-        // console.log('data', data)
+        if (data.length === 0) {
+          alert('This Playlist is Empty');
+          setError(true);
+          return;
+        }
         setPlaylistSongs(data);
-        setPlaylistName(data[0].playlist_name);
-        setPlaylistImg(data[0].playlist_img);
+        setPlaylistName(data[0].playlist[0].name);
+        setPlaylistImg(data[0].playlist[0].coverImg);
         setPlaylistSongsCount(data.length);        
 
         const tempLengthsArray = [];
@@ -52,29 +56,29 @@ function SinglePlaylist() {
           </div>
           <ul className="playlist-songs-list" style={{ listStyleType: 'none' }}>
             {playlistSongs.map((song) => (
-              <li key={song.song_id}>
+              <li key={song.id}>
                 <div className="playlist-song">
-                  <Link to={`/song/${song.song_id}?type=playlist&id=${song.playlist_id}`} className="song-name">
+                  <Link to={`/song/${song.id}?type=playlist&id=${song.playlist[0].id}`} className="song-name">
                     Name:
                     {song.title}
                   </Link>
-                  <Link to={`/artist/${song.artist_id}`} className="artist-name">
+                  <Link to={`/artist/${song.artistId}`} className="artist-name">
                     Artist:
-                    {song.artist_name}
+                    {song.artist.artistName}
                   </Link>
-                  {song.featured_artist
+                  {song.featuredArtist
                     ? (
-                      <Link to={`/artist/${song.featured_artist_id}`} className="feartured-artist-name">
+                      <Link to={`/artist/${song.featuredArtistId}`} className="feartured-artist-name">
                         Featured Artist:
-                        {song.featured_artist}
+                        {song.featuredArtist.artistName}
                       </Link>
                     )
                     : null}
-                  {song.album_name
+                  {song.album
                     ? (
-                      <Link to={`/album/${song.album_id}`} className="album-name">
+                      <Link to={`/album/${song.albumId}`} className="album-name">
                         Album:
-                        {song.album_name}
+                        {song.album.name}
                       </Link>
                     )
                     : null}

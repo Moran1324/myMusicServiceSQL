@@ -22,12 +22,12 @@ function SingleAlbum() {
       (data) => {
         // console.log('data', data, data.length)
         setAlbumSongs(data);
-        setAlbumName(data[0].album_name);
-        setalbumImg(data[0].album_img);
-        setAlbumArtist(data[0].artist_name);
+        setAlbumName(data[0].album.name);
+        setalbumImg(data[0].album.coverImg);
+        setAlbumArtist(data[0].artist.artistName);
         setAlbumSongsCount(data.length);
-        setAlbumYear(new Date(data[0].album_year).getFullYear());
-        setAlbumArtistId(data[0].artist_id);
+        setAlbumYear(new Date(data[0].album.releasedAt).getFullYear());
+        setAlbumArtistId(data[0].artistId);
         
 
         const tempLengthsArray = [];
@@ -65,29 +65,29 @@ function SingleAlbum() {
           </div>
           <ul className="artist-songs-list" style={{ listStyleType: 'none' }}>
             {albumSongs.map((song) => (
-              <li key={song.song_id}>
+              <li key={song.id}>
                 <div className="album-song">
-                  <Link to={`/song/${song.song_id}?type=album&id=${song.album_id}`} className="song-name">
+                  <Link to={`/song/${song.id}?type=album&id=${song.album.id}`} className="song-name">
                     Name:
                     {song.title}
                   </Link>
-                  <Link to={`/artist/${song.artist_id}`} className="artist-name">
+                  <Link to={`/artist/${song.artistId}`} className="artist-name">
                     Artist:
-                    {song.artist_name}
+                    {song.artist.artistName}
                   </Link>
-                  {song.featured_artist
+                  {song.featuredArtist
                     ? (
-                      <Link to={`/artist/${song.featured_artist_id}`} className="feartured-artist-name">
+                      <Link to={`/artist/${song.featuredArtistId}`} className="feartured-artist-name">
                         Featured Artist:
-                        {song.featured_artist}
+                        {song.featuredArtist.artistName}
                       </Link>
                     )
                     : null}
-                  {song.album_name
+                  {song.album.name
                     ? (
-                      <Link to={`/album/${song.album_id}`} className="album-name">
+                      <Link to={`/album/${song.albumId}`} className="album-name">
                         Album:
-                        {song.album_name}
+                        {song.album.name}
                       </Link>
                     )
                     : null}

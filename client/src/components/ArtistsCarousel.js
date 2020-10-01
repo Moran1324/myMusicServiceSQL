@@ -18,8 +18,8 @@ function ArtistsCarousel({ artists }) {
         {artists.map((artist) => (
           <div className="carousel-artist-card" key={artist.id}>
             <Link to={`/artist/${artist.id}`}>
-              <img src={`${artist.cover_img}`} alt="Artist" className="carousel-artist-img" />
-              <h4 className="carousel-artist-name">{artist.artist_name}</h4>
+              <img src={`${artist.coverImg}`} alt="Artist" className="carousel-artist-img" />
+              <h4 className="carousel-artist-name">{artist.artistName}</h4>
             </Link>
           </div>
         ))}

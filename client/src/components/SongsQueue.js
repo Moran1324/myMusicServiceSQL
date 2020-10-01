@@ -16,13 +16,13 @@ function SongsQueue({ songsArray }) {
     <div className="songs-queue">
       <h2>Up Next</h2>
       {queueSongs.map(song => (
-        <div key={song.song_id} className="queue-song">
-          <img src={song.artist_img} className="queue-song-img" alt="Artist"/>
-          <Link to={`/song/${song.song_id}${search}`} className="queue-song-name">
+        <div key={song.id} className="queue-song">
+          <img src={song.artist.coverImg} className="queue-song-img" alt="Artist"/>
+          <Link to={`/song/${song.id}${search}`} className="queue-song-name">
             <h4>{song.title}</h4>
           </Link>
-          <Link to={`/artist/${song.artist_id}`} className="queue-song-artist">
-            {song.artist_name}
+          <Link to={`/artist/${song.artistId}`} className="queue-song-artist">
+            {song.artist.artistName}
           </Link>
           <span className="queue-song-length">{song.length}</span>
         </div>

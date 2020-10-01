@@ -23,7 +23,7 @@ module.exports = {
           key:'id',
         }
       },
-      launched_at: {
+      released_at: {
         type: Sequelize.DATE
       },
       created_at: {

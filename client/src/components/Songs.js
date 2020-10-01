@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { getTops } from '../list-music-user';
+import { getTops, getAll } from '../list-music-user';
 import SongsCarousel from './SongsCarousel';
 
 function Songs() {
   const [songs, setSongs] = useState([]);
+  const [topSongs, setTopSongs] = useState([]);
 
   const { pathname } = useLocation();
 
   useEffect(() => {
-    getTops(pathname)
+    getAll(pathname)
       .then(
         (data) => {
           // console.log('here are the songs');
@@ -19,11 +20,21 @@ function Songs() {
           console.error('there was an error', error);
         },
       );
+    getTops(pathname, 20)
+      .then(
+        (data) => {
+          // console.log('here are the songs');
+          setTopSongs(data);
+        },
+        (error) => {
+          console.error('there was an error', error);
+        },
+      );
   }, [pathname]);
 
   return (
     <>
-      <SongsCarousel songs={songs} />
+      <SongsCarousel songs={topSongs} />
       <h2 style={{ marginLeft: '60px' }}>All Songs</h2>
       <div className="allSongs">
         <ul className="songs-list" style={{ listStyleType: 'none' }}>
@@ -34,23 +45,23 @@ function Songs() {
                   Name:
                   {song.title}
                 </Link>
-                <Link to={`/artist/${song.artist_id}`} className="artist-name">
+                <Link to={`/artist/${song.artistId}`} className="artist-name">
                   Artist:
-                  {song.artist_name}
+                  {song.artist.artistName}
                 </Link>
-                {song.featured_artist
+                {song.featuredArtist
                   ? (
-                    <Link to={`/artist/${song.featured_artist_id}`} className="feartured-artist-name">
+                    <Link to={`/artist/${song.featuredArtistId}`} className="feartured-artist-name">
                       Featured Artist:
-                      {song.featured_artist}
+                      {song.featuredArtist.artistName}
                     </Link>
                   )
                   : null}
-                {song.album_name
+                {song.album
                   ? (
-                    <Link to={`/album/${song.album_id}`} className="album-name">
+                    <Link to={`/album/${song.albumId}`} className="album-name">
                       Album:
-                      {song.album_name}
+                      {song.album.name}
                     </Link>
                   )
                   : null}

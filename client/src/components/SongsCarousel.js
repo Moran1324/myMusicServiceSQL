@@ -19,12 +19,12 @@ function SongsCarousel({ songs }) {
       <Carousel breakPoints={breakPoints}>
         {songs.map((song) => (
           <div className="carousel-song-card" key={song.id}>
-            <EmbedYoutube link={song.youtube_link} title={song.id} className="embeded-song-link" />
+            <EmbedYoutube link={song.youtubeLink} title={song.id} className="embeded-song-link" />
             <h4>
               <Link to={`/song/${song.id}?type=allSongs`}>{song.title}</Link>
             </h4>
             <div className="carousel-song-artist">
-              <Link to={`/artist/${song.artist_id}`}>{song.artist_name}</Link>
+              <Link to={`/artist/${song.artistId}`}>{song.artist.artistName}</Link>
             </div>
           </div>
         ))}
