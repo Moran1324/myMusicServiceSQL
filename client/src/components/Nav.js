@@ -3,13 +3,13 @@ import { NavLink } from 'react-router-dom';
 
 function Nav() {
   return (
-    <div style={{ backgroundColor: 'lightblue', color: 'red' }}>
-      <span>MyMusicService </span>
-      <NavLink exact to="/" activeStyle={{ backgroundColor: 'grey' }}>Home </NavLink>
-      <NavLink to="/artist" activeStyle={{ backgroundColor: 'grey' }}>Artists </NavLink>
-      <NavLink to="/album" activeStyle={{ backgroundColor: 'grey' }}>Albums </NavLink>
-      <NavLink to="/song" activeStyle={{ backgroundColor: 'grey' }}>Songs </NavLink>
-      <NavLink to="/playlist" activeStyle={{ backgroundColor: 'grey' }}>Playlists </NavLink>
+    <div className='nav-bar' style={{ backgroundColor: 'rgb(13, 78, 0)', color: 'red', padding: '0.8em' }}>
+      <span style={{ backgroundColor: 'rgb(13, 78, 0)', color: 'gray', fontSize: '1.5em' }} >MyMusicService </span>
+      <NavLink exact to="/" style={{ backgroundColor: 'rgb(13, 78, 0)', color: 'red' }} activeStyle={{ backgroundColor: 'grey' }}>Home </NavLink>
+      <NavLink to="/artist" style={{ backgroundColor: 'rgb(13, 78, 0)', color: 'red' }} activeStyle={{ backgroundColor: 'grey' }}>Artists </NavLink>
+      <NavLink to="/album" style={{ backgroundColor: 'rgb(13, 78, 0)', color: 'red' }} activeStyle={{ backgroundColor: 'grey' }}>Albums </NavLink>
+      <NavLink to="/song" style={{ backgroundColor: 'rgb(13, 78, 0)', color: 'red' }} activeStyle={{ backgroundColor: 'grey' }}>Songs </NavLink>
+      <NavLink to="/playlist" style={{ backgroundColor: 'rgb(13, 78, 0)', color: 'red' }} activeStyle={{ backgroundColor: 'grey' }}>Playlists </NavLink>
       {/* add search input and component */}
     </div>
   );
