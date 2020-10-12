@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const { Op } = require('sequelize');
 const mysqlCon = require('../sqlConnection');
 const { Song, Playlist } = require('../models');
 
