@@ -16,6 +16,7 @@ function SingleArtist() {
     getSongsListById(pathname)
     .then(
       (data) => {
+        // if (data.length < 1);
         const mainSongs = data.filter(song => {
           return song.artistId === parseInt(params.id);
         })
