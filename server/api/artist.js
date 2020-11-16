@@ -8,59 +8,73 @@ const router = Router();
 // SEQUELIZE ENDPOINTS
 
 router.get('/test/:id', async (req, res, next) => {
-  try {
-    const artistData = await Artist.findByPk(req.params.id, {
-      include: [{
-        model: Song,
-        as: 'songs',
-        include: [{ model: Album, as: 'album', attributes: ['name', 'coverImg'] }],
-      }, 'albums'],
-    });
-    res.json(artistData);
-  } catch (error) { res.send(error.message); }
+	try {
+		const artistData = await Artist.findByPk(req.params.id, {
+			include: [
+				{
+					model: Song,
+					as: 'songs',
+					include: [
+						{ model: Album, as: 'album', attributes: ['name', 'coverImg'] },
+					],
+				},
+				{
+					model: Song,
+					as: 'featuredSongs',
+					include: [
+						{ model: Album, as: 'album', attributes: ['name', 'coverImg'] },
+					],
+				},
+				'albums',
+			],
+		});
+		res.json(artistData);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // get all artists
 router.get('/all', async (req, res, next) => {
-  try {
-    const artists = await Artist.findAll();
-    res.json(artists);
-  } catch (error) {
-    res.send(error.message);
-  }
+	try {
+		const artists = await Artist.findAll();
+		res.json(artists);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // get top artists
 router.get('/top', async (req, res, next) => {
-  if (req.query.limit == null) {
-    res.status(400).send({ error: 'bad request' });
-    return;
-  }
-  const topLimit = parseInt(req.query.limit);
-  try {
-    const artists = await Artist.findAll({ limit: topLimit });
-    res.json(artists);
-  } catch (error) {
-    res.send(error.message);
-  }
+	if (req.query.limit == null) {
+		res.status(400).send({ error: 'bad request' });
+		return;
+	}
+	const topLimit = parseInt(req.query.limit);
+	try {
+		const artists = await Artist.findAll({ limit: topLimit });
+		res.json(artists);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // get artist's songs by artist id
 router.get('/:id', async (req, res, next) => {
-  try {
-    const artistSongs = await Song.findAll({
-      where: {
-        [Op.or]: [
-          { artistId: req.params.id },
-          { featuredArtistId: req.params.id },
-        ],
-      },
-      include: ['artist', 'album', 'featuredArtist'],
-    });
-    res.json(artistSongs);
-  } catch (error) {
-    res.send(error.message);
-  }
+	try {
+		const artistSongs = await Song.findAll({
+			where: {
+				[Op.or]: [
+					{ artistId: req.params.id },
+					{ featuredArtistId: req.params.id },
+				],
+			},
+			include: ['artist', 'album', 'featuredArtist'],
+		});
+		res.json(artistSongs);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // MYSQL ENDPOINTS
@@ -102,38 +116,41 @@ router.get('/:id', async (req, res, next) => {
 
 // add new artist to database
 router.post('/', (req, res, next) => {
-  mysqlCon.query(
-    'INSERT INTO artists SET ?', req.body,
-    (error, results, fields) => {
-      if (error) next(error);
-      res.json(results);
-    },
-  );
-  // don't forget: catch((error) => next(error));
+	mysqlCon.query(
+		'INSERT INTO artists SET ?',
+		req.body,
+		(error, results, fields) => {
+			if (error) next(error);
+			res.json(results);
+		}
+	);
+	// don't forget: catch((error) => next(error));
 });
 
 // update artist details in database
 router.put('/:id', (req, res, next) => {
-  mysqlCon.query(
-    'UPDATE artists SET ? WHERE id = ?', [req.body, req.params.id],
-    (error, results, fields) => {
-      if (error) next(error);
-      res.json(results);
-    },
-  );
-  // don't forget: catch((error) => next(error));
+	mysqlCon.query(
+		'UPDATE artists SET ? WHERE id = ?',
+		[req.body, req.params.id],
+		(error, results, fields) => {
+			if (error) next(error);
+			res.json(results);
+		}
+	);
+	// don't forget: catch((error) => next(error));
 });
 
 // delete artist from database
 router.delete('/:id', (req, res, next) => {
-  mysqlCon.query(
-    'DELETE FROM artists WHERE id = ?', req.params.id,
-    (error, results, fields) => {
-      if (error) next(error);
-      res.json(results);
-    },
-  );
-  // don't forget: catch((error) => next(error));
+	mysqlCon.query(
+		'DELETE FROM artists WHERE id = ?',
+		req.params.id,
+		(error, results, fields) => {
+			if (error) next(error);
+			res.json(results);
+		}
+	);
+	// don't forget: catch((error) => next(error));
 });
 
 module.exports = router;
