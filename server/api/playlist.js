@@ -8,44 +8,49 @@ const router = Router();
 
 // get all playlists
 router.get('/all', async (req, res, next) => {
-  try {
-    const playlists = await Playlist.findAll();
-    res.json(playlists);
-  } catch (error) {
-    res.send(error.message);
-  }
+	try {
+		const playlists = await Playlist.findAll();
+		res.json(playlists);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // get top playlists
 router.get('/top', async (req, res, next) => {
-  if (req.query.limit == null) {
-    res.status(400).send({ error: 'bad request' });
-    return;
-  }
-  const topLimit = parseInt(req.query.limit);
-  try {
-    const playlists = await Playlist.findAll({ limit: topLimit });
-    res.json(playlists);
-  } catch (error) {
-    res.send(error.message);
-  }
+	if (req.query.limit == null) {
+		res.status(400).send({ error: 'bad request' });
+		return;
+	}
+	const topLimit = parseInt(req.query.limit);
+	try {
+		const playlists = await Playlist.findAll({ limit: topLimit });
+		res.json(playlists);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // get playlist songs by playlist id
 router.get('/:id', async (req, res, next) => {
-  try {
-    const playlistSongs = await Song.findAll({
-      // where: { id: req.params.id },
-      include: ['artist', 'album', 'featuredArtist', {
-        model: Playlist,
-        as: 'playlist',
-        where: { id: req.params.id },
-      }],
-    });
-    res.json(playlistSongs);
-  } catch (error) {
-    res.send(error.message);
-  }
+	try {
+		const playlistSongs = await Song.findAll({
+			// where: { id: req.params.id },
+			include: [
+				'artist',
+				'album',
+				'featuredArtist',
+				{
+					model: Playlist,
+					as: 'playlist',
+					where: { id: req.params.id },
+				},
+			],
+		});
+		res.json(playlistSongs);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // MYSQL ENDPOINTS
@@ -87,38 +92,41 @@ router.get('/:id', async (req, res, next) => {
 
 // add new playlist to database
 router.post('/', (req, res, next) => {
-  mysqlCon.query(
-    'INSERT INTO playlists SET ?', req.body,
-    (error, results, fields) => {
-      if (error) next(error);
-      res.json(results);
-    },
-  );
-  // don't forget: catch((error) => next(error));
+	mysqlCon.query(
+		'INSERT INTO playlists SET ?',
+		req.body,
+		(error, results, fields) => {
+			if (error) next(error);
+			res.json(results);
+		}
+	);
+	// don't forget: catch((error) => next(error));
 });
 
 // update playlist details in database
 router.put('/:id', (req, res, next) => {
-  mysqlCon.query(
-    'UPDATE playlists SET ? WHERE playlist_id = ?', [req.body, req.params.id],
-    (error, results, fields) => {
-      if (error) next(error);
-      res.json(results);
-    },
-  );
-  // don't forget: catch((error) => next(error));
+	mysqlCon.query(
+		'UPDATE playlists SET ? WHERE playlist_id = ?',
+		[req.body, req.params.id],
+		(error, results, fields) => {
+			if (error) next(error);
+			res.json(results);
+		}
+	);
+	// don't forget: catch((error) => next(error));
 });
 
 // delete playlist from database
 router.delete('/:id', (req, res, next) => {
-  mysqlCon.query(
-    'DELETE FROM playlists WHERE playlist_id = ?', req.params.id,
-    (error, results, fields) => {
-      if (error) next(error);
-      res.json(results);
-    },
-  );
-  // don't forget: catch((error) => next(error));
+	mysqlCon.query(
+		'DELETE FROM playlists WHERE playlist_id = ?',
+		req.params.id,
+		(error, results, fields) => {
+			if (error) next(error);
+			res.json(results);
+		}
+	);
+	// don't forget: catch((error) => next(error));
 });
 
 module.exports = router;
