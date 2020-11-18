@@ -1,15 +1,19 @@
 const express = require('express');
+// const mysqlCon = require('./sqlConnection');
 
 const app = express();
 
 app.use(express.json());
-//  app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
 app.use(express.static('build'));
 
-// get endpoint
-app.get('/api', (req, res, next) => {
-  // don't forget: catch((error) => next(error));
-});
+function logger(req, res, next) {
+  console.log(`request fired ${req.url} ${req.method} at ${Date(Date.now())}`);
+  next();
+}
+app.use(logger);
+
+app.use('/api', require('./api'));
 
 /// ERRORS SECTION
 
@@ -24,6 +28,12 @@ const errorHandler = (error, request, response, next) => {
   console.error(error.message);
 
   // build here your error handler
+  if (error.code === 'ER_BAD_FIELD_ERROR') {
+    return response.status(400).send({ error: 'requested data was not found' });
+  }
+  if (error.field === 'ER_NO_DEFAULT_FOR_FIELD') {
+    return response.status(400).send({ error: 'necessary data was not sent' });
+  }
 
   next(error);
 };

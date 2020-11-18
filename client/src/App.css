@@ -1,0 +1,78 @@
+* {
+  color: white;
+  background-color: #111;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.artist-cover-img {
+  height: 100px; /* just for now */
+  width: 100px;
+  border-radius: 50%;
+}
+
+.album-cover-img {
+  height: 150px;
+  width: 150px;
+  border-radius: 10%;
+}
+
+.playlist-cover-img {
+  height: 150px;
+  width: 150px;
+  border-radius: 10%;
+}
+
+.embeded-song-link {
+  border-radius: 2.5%;
+}
+
+.carousel-artist-img {
+  height: 200px;
+  width: 200px;
+  border-radius: 2.5%;
+}
+
+.carousel-album-img {
+  height: 200px;
+  width: 200px;
+  border-radius: 2.5%;
+}
+
+.carousel-playlist-img {
+  height: 200px;
+  width: 200px;
+  border-radius: 2.5%;
+}
+
+.album-img {
+  height: 300px;
+  width: 300px;
+  border-radius: 2.5%;
+}
+
+.playlist-img {
+  height: 300px;
+  width: 300px;
+  border-radius: 2.5%;
+}
+
+.artist-img {
+  height: 300px;
+  border-radius: 2.5%;
+}
+
+.song-img {
+  height: 100px;
+  border-radius: 2.5%;
+}
+
+.queue-song-img {
+  height: 50px;
+  width: 50px;
+  border-radius: 1%;
+}
