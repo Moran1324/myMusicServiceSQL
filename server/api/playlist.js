@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const mysqlCon = require('../sqlConnection');
 const { Song, Playlist } = require('../models');
 
 const router = Router();
@@ -8,44 +7,49 @@ const router = Router();
 
 // get all playlists
 router.get('/all', async (req, res, next) => {
-  try {
-    const playlists = await Playlist.findAll();
-    res.json(playlists);
-  } catch (error) {
-    res.send(error.message);
-  }
+	try {
+		const playlists = await Playlist.findAll();
+		res.json(playlists);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // get top playlists
 router.get('/top', async (req, res, next) => {
-  if (req.query.limit == null) {
-    res.status(400).send({ error: 'bad request' });
-    return;
-  }
-  const topLimit = parseInt(req.query.limit);
-  try {
-    const playlists = await Playlist.findAll({ limit: topLimit });
-    res.json(playlists);
-  } catch (error) {
-    res.send(error.message);
-  }
+	if (req.query.limit == null) {
+		res.status(400).send({ error: 'bad request' });
+		return;
+	}
+	const topLimit = parseInt(req.query.limit);
+	try {
+		const playlists = await Playlist.findAll({ limit: topLimit });
+		res.json(playlists);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // get playlist songs by playlist id
 router.get('/:id', async (req, res, next) => {
-  try {
-    const playlistSongs = await Song.findAll({
-      // where: { id: req.params.id },
-      include: ['artist', 'album', 'featuredArtist', {
-        model: Playlist,
-        as: 'playlist',
-        where: { id: req.params.id },
-      }],
-    });
-    res.json(playlistSongs);
-  } catch (error) {
-    res.send(error.message);
-  }
+	try {
+		const playlistSongs = await Song.findAll({
+			// where: { id: req.params.id },
+			include: [
+				'artist',
+				'album',
+				'featuredArtist',
+				{
+					model: Playlist,
+					as: 'playlist',
+					where: { id: req.params.id },
+				},
+			],
+		});
+		res.json(playlistSongs);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // MYSQL ENDPOINTS
@@ -85,6 +89,7 @@ router.get('/:id', async (req, res, next) => {
 //   // don't forget: catch((error) => next(error));
 // });
 
+/*
 // add new playlist to database
 router.post('/', (req, res, next) => {
   mysqlCon.query(
@@ -120,5 +125,6 @@ router.delete('/:id', (req, res, next) => {
   );
   // don't forget: catch((error) => next(error));
 });
+*/
 
 module.exports = router;

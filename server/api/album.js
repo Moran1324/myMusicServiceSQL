@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const mysqlCon = require('../sqlConnection');
 const { Song, Album } = require('../models');
 
 const router = Router();
@@ -8,43 +7,43 @@ const router = Router();
 
 // get all albums
 router.get('/all', async (req, res, next) => {
-  try {
-    const albums = await Album.findAll({ include: ['artist'] });
-    res.json(albums);
-  } catch (error) {
-    res.send(error.message);
-  }
+	try {
+		const albums = await Album.findAll({ include: ['artist'] });
+		res.json(albums);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // get top albums
 router.get('/top', async (req, res, next) => {
-  if (req.query.limit == null) {
-    res.status(400).send({ error: 'bad request' });
-    return;
-  }
-  const topLimit = parseInt(req.query.limit);
-  try {
-    const albums = await Album.findAll({
-      limit: topLimit,
-      include: ['artist'],
-    });
-    res.json(albums);
-  } catch (error) {
-    res.send(error.message);
-  }
+	if (req.query.limit == null) {
+		res.status(400).send({ error: 'bad request' });
+		return;
+	}
+	const topLimit = parseInt(req.query.limit);
+	try {
+		const albums = await Album.findAll({
+			limit: topLimit,
+			include: ['artist'],
+		});
+		res.json(albums);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // get album songs by album id
 router.get('/:id', async (req, res, next) => {
-  try {
-    const albumSongs = await Song.findAll({
-      where: { albumId: req.params.id },
-      include: ['album', 'artist', 'featuredArtist'],
-    });
-    res.json(albumSongs);
-  } catch (error) {
-    res.send(error.message);
-  }
+	try {
+		const albumSongs = await Song.findAll({
+			where: { albumId: req.params.id },
+			include: ['album', 'artist', 'featuredArtist'],
+		});
+		res.json(albumSongs);
+	} catch (error) {
+		res.send(error.message);
+	}
 });
 
 // MYSQL ENDPOINTS
@@ -84,6 +83,7 @@ router.get('/:id', async (req, res, next) => {
 //   // don't forget: catch((error) => next(error));
 // });
 
+/*
 // add new album to database
 router.post('/', (req, res, next) => {
   mysqlCon.query(
@@ -119,5 +119,6 @@ router.delete('/:id', (req, res, next) => {
   );
   // don't forget: catch((error) => next(error));
 });
+*/
 
 module.exports = router;
