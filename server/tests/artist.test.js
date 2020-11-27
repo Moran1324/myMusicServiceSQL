@@ -11,7 +11,6 @@ describe('test artist api', () => {
 	});
 	afterAll(async () => {
 		await server.close();
-		// await mysqlCon.end();
 	});
 	// beforeEach(async () => {});
 	afterEach(async () => {
