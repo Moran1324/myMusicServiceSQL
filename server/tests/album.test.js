@@ -5,7 +5,7 @@ const { Album } = require('../models');
 
 const ALBUM_URL = '/api/album';
 
-describe('test artist api', () => {
+describe('test album api', () => {
 	beforeAll(async () => {
 		await Album.destroy({ truncate: true, force: true });
 	});

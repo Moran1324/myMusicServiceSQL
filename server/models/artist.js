@@ -12,17 +12,17 @@ module.exports = (sequelize, DataTypes) => {
 			this.hasMany(models.Album, {
 				foreignKey: 'artistId',
 				as: 'albums',
-				onDelete: 'CASCASE',
+				onDelete: 'SET NULL',
 			});
 			this.hasMany(models.Song, {
 				foreignKey: 'artistId',
 				as: 'songs',
-				onDelete: 'CASCADE',
+				onDelete: 'SET NULL',
 			});
 			this.hasMany(models.Song, {
 				foreignKey: 'featuredArtistId',
 				as: 'featuredSongs',
-				onDelete: 'CASCADE',
+				onDelete: 'SET NULL',
 			});
 			this.belongsToMany(models.Interaction, {
 				through: 'ArtistInteraction',

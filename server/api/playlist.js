@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { Song, Playlist } = require('../models');
+const { Song, Playlist, Album, Artist } = require('../models');
 
 const router = Router();
 
@@ -33,24 +33,43 @@ router.get('/top', async (req, res, next) => {
 // get playlist songs by playlist id
 router.get('/:id', async (req, res, next) => {
 	try {
-		const playlistSongs = await Song.findAll({
-			// where: { id: req.params.id },
+		const playlistData = await Playlist.findByPk(req.params.id, {
 			include: [
-				'artist',
-				'album',
-				'featuredArtist',
 				{
-					model: Playlist,
-					as: 'playlist',
-					where: { id: req.params.id },
+					model: Song,
+					as: 'songs',
+					include: ['artist', 'album'],
+					exclude: 'PlaylistSongs',
 				},
 			],
 		});
-		res.json(playlistSongs);
+		res.json(playlistData);
 	} catch (error) {
 		res.send(error.message);
 	}
 });
+
+// // get playlist songs by playlist id
+// router.get('/:id', async (req, res, next) => {
+// 	try {
+// 		const playlistSongs = await Song.findAll({
+// 			// where: { id: req.params.id },
+// 			include: [
+// 				'artist',
+// 				'album',
+// 				'featuredArtist',
+// 				{
+// 					model: Playlist,
+// 					as: 'playlist',
+// 					where: { id: req.params.id },
+// 				},
+// 			],
+// 		});
+// 		res.json(playlistSongs);
+// 	} catch (error) {
+// 		res.send(error.message);
+// 	}
+// });
 
 // MYSQL ENDPOINTS
 
