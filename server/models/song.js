@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
 			this.belongsToMany(models.Playlist, {
 				through: 'PlaylistSongs',
 				foreignKey: 'songId',
-				as: 'playlist',
+				as: 'playlists',
 				onDelete: 'CASCADE',
 			});
 		}

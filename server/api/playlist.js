@@ -49,28 +49,6 @@ router.get('/:id', async (req, res, next) => {
 	}
 });
 
-// // get playlist songs by playlist id
-// router.get('/:id', async (req, res, next) => {
-// 	try {
-// 		const playlistSongs = await Song.findAll({
-// 			// where: { id: req.params.id },
-// 			include: [
-// 				'artist',
-// 				'album',
-// 				'featuredArtist',
-// 				{
-// 					model: Playlist,
-// 					as: 'playlist',
-// 					where: { id: req.params.id },
-// 				},
-// 			],
-// 		});
-// 		res.json(playlistSongs);
-// 	} catch (error) {
-// 		res.send(error.message);
-// 	}
-// });
-
 // MYSQL ENDPOINTS
 
 // // get top 20 playlists
