@@ -1,5 +1,7 @@
 const { Router } = require('express');
-const { Song, Playlist, Album, Artist } = require('../models');
+const {
+  Song, Playlist, Album, Artist,
+} = require('../models');
 
 const router = Router();
 
@@ -7,46 +9,46 @@ const router = Router();
 
 // get all playlists
 router.get('/all', async (req, res, next) => {
-	try {
-		const playlists = await Playlist.findAll();
-		res.json(playlists);
-	} catch (error) {
-		res.send(error.message);
-	}
+  try {
+    const playlists = await Playlist.findAll();
+    res.json(playlists);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 // get top playlists
 router.get('/top', async (req, res, next) => {
-	if (req.query.limit == null) {
-		res.status(400).send({ error: 'bad request' });
-		return;
-	}
-	const topLimit = parseInt(req.query.limit);
-	try {
-		const playlists = await Playlist.findAll({ limit: topLimit });
-		res.json(playlists);
-	} catch (error) {
-		res.send(error.message);
-	}
+  if (req.query.limit == null) {
+    res.status(400).send({ error: 'bad request' });
+    return;
+  }
+  const topLimit = parseInt(req.query.limit);
+  try {
+    const playlists = await Playlist.findAll({ limit: topLimit });
+    res.json(playlists);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 // get playlist songs by playlist id
 router.get('/:id', async (req, res, next) => {
-	try {
-		const playlistData = await Playlist.findByPk(req.params.id, {
-			include: [
-				{
-					model: Song,
-					as: 'songs',
-					include: ['artist', 'album'],
-					exclude: 'PlaylistSongs',
-				},
-			],
-		});
-		res.json(playlistData);
-	} catch (error) {
-		res.send(error.message);
-	}
+  try {
+    const playlistData = await Playlist.findByPk(req.params.id, {
+      include: [
+        {
+          model: Song,
+          as: 'songs',
+          include: ['artist', 'album', 'featuredArtist'],
+          exclude: 'PlaylistSongs',
+        },
+      ],
+    });
+    res.json(playlistData);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 // MYSQL ENDPOINTS

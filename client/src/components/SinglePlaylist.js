@@ -17,18 +17,18 @@ function SinglePlaylist() {
     getSongsListById(pathname)
     .then(
       (data) => {
-        if (data.length === 0) {
+        if (data.songs.length === 0) {
           alert('This Playlist is Empty');
           setError(true);
           return;
         }
-        setPlaylistSongs(data);
-        setPlaylistName(data[0].playlist[0].name);
-        setPlaylistImg(data[0].playlist[0].coverImg);
-        setPlaylistSongsCount(data.length);        
+        setPlaylistSongs(data.songs);
+        setPlaylistName(data.name);
+        setPlaylistImg(data.coverImg);
+        setPlaylistSongsCount(data.songs.length);        
 
         const tempLengthsArray = [];
-        data.map(song => (
+        data.songs.map(song => (
           tempLengthsArray.push(song.length)
         ));
         // console.log(totalLengthCalc(tempLengthsArray));
@@ -55,10 +55,10 @@ function SinglePlaylist() {
             </div>
           </div>
           <ul className="playlist-songs-list" style={{ listStyleType: 'none' }}>
-            {playlistSongs.map((song) => (
+            {playlistSongs.length && playlistSongs.map((song) => (
               <li key={song.id}>
                 <div className="playlist-song">
-                  <Link to={`/song/${song.id}?type=playlist&id=${song.playlist[0].id}`} className="song-name">
+                  <Link to={`/song/${song.id}?type=playlist&id=${song.PlaylistSongs.playlistId}`} className="song-name">
                     Name:
                     {song.title}
                   </Link>

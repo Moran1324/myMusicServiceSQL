@@ -6,7 +6,7 @@ import { totalLengthCalc } from '../time-calc-func';
 function SingleAlbum() {
   const [albumSongs, setAlbumSongs] = useState([]);
   const [albumName, setAlbumName] = useState('');
-  const [albumImg, setalbumImg] = useState('');
+  const [albumImg, setAlbumImg] = useState('');
   const [albumLength, setAlbumLength] = useState('00:00:00');
   const [albumArtist, setAlbumArtist] = useState('');
   const[albumSongsCount, setAlbumSongsCount] = useState();
@@ -21,17 +21,17 @@ function SingleAlbum() {
     .then(
       (data) => {
         // console.log('data', data, data.length)
-        setAlbumSongs(data);
-        setAlbumName(data[0].album.name);
-        setalbumImg(data[0].album.coverImg);
-        setAlbumArtist(data[0].artist.artistName);
-        setAlbumSongsCount(data.length);
-        setAlbumYear(new Date(data[0].album.releasedAt).getFullYear());
-        setAlbumArtistId(data[0].artistId);
+        setAlbumSongs(data.songs);
+        setAlbumName(data.name);
+        setAlbumImg(data.coverImg);
+        setAlbumArtist(data.artist.artistName);
+        setAlbumSongsCount(data.songs.length);
+        setAlbumYear(new Date(data.releasedAt).getFullYear());
+        setAlbumArtistId(data.artistId);
         
 
         const tempLengthsArray = [];
-        data.map(song => (
+        data.songs.map(song => (
           tempLengthsArray.push(song.length)
         ));
         // console.log(totalLengthCalc(tempLengthsArray));
@@ -64,16 +64,16 @@ function SingleAlbum() {
             </div>
           </div>
           <ul className="artist-songs-list" style={{ listStyleType: 'none' }}>
-            {albumSongs.map((song) => (
+            {albumSongs.length && albumSongs.map((song) => (
               <li key={song.id}>
                 <div className="album-song">
-                  <Link to={`/song/${song.id}?type=album&id=${song.album.id}`} className="song-name">
+                  <Link to={`/song/${song.id}?type=album&id=${song.albumId}`} className="song-name">
                     Name:
                     {song.title}
                   </Link>
                   <Link to={`/artist/${song.artistId}`} className="artist-name">
                     Artist:
-                    {song.artist.artistName}
+                    {albumArtist}
                   </Link>
                   {song.featuredArtist
                     ? (
@@ -83,11 +83,11 @@ function SingleAlbum() {
                       </Link>
                     )
                     : null}
-                  {song.album.name
+                  {albumName
                     ? (
                       <Link to={`/album/${song.albumId}`} className="album-name">
                         Album:
-                        {song.album.name}
+                        {albumName}
                       </Link>
                     )
                     : null}

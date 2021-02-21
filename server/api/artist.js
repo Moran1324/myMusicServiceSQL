@@ -7,83 +7,83 @@ const router = Router();
 // SEQUELIZE ENDPOINTS
 
 router.get('/test/:id', async (req, res, next) => {
-	try {
-		const artistData = await Artist.findByPk(req.params.id, {
-			include: [
-				{
-					model: Song,
-					as: 'songs',
-					include: [
-						{ model: Album, as: 'album', attributes: ['name', 'coverImg'] },
-					],
-				},
-				{
-					model: Song,
-					as: 'featuredSongs',
-					include: [
-						{ model: Album, as: 'album', attributes: ['name', 'coverImg'] },
-					],
-				},
-				'albums',
-			],
-		});
-		res.json(artistData);
-	} catch (error) {
-		res.send(error.message);
-	}
+  try {
+    const artistData = await Artist.findByPk(req.params.id, {
+      include: [
+        {
+          model: Song,
+          as: 'songs',
+          include: [
+            { model: Album, as: 'album', attributes: ['name', 'coverImg'] },
+          ],
+        },
+        {
+          model: Song,
+          as: 'featuredSongs',
+          include: [
+            { model: Album, as: 'album', attributes: ['name', 'coverImg'] },
+          ],
+        },
+        'albums',
+      ],
+    });
+    res.json(artistData);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 // get all artists
 router.get('/all', async (req, res, next) => {
-	try {
-		const artists = await Artist.findAll();
-		res.json(artists);
-	} catch (error) {
-		res.send(error.message);
-	}
+  try {
+    const artists = await Artist.findAll();
+    res.json(artists);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 // get top artists
 router.get('/top', async (req, res, next) => {
-	if (req.query.limit == null) {
-		res.status(400).send({ error: 'bad request' });
-		return;
-	}
-	const topLimit = parseInt(req.query.limit) || 20;
-	try {
-		const artists = await Artist.findAll({ limit: topLimit });
-		res.json(artists);
-	} catch (error) {
-		res.send(error.message);
-	}
+  if (req.query.limit == null) {
+    res.status(400).send({ error: 'bad request' });
+    return;
+  }
+  const topLimit = parseInt(req.query.limit) || 20;
+  try {
+    const artists = await Artist.findAll({ limit: topLimit });
+    res.json(artists);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 // get artist's songs by artist id
 router.get('/:id', async (req, res, next) => {
-	try {
-		const artistData = await Artist.findByPk(req.params.id, {
-			include: [
-				{
-					model: Song,
-					as: 'songs',
-					include: [
-						{ model: Album, as: 'album', attributes: ['name', 'coverImg'] },
-					],
-				},
-				{
-					model: Song,
-					as: 'featuredSongs',
-					include: [
-						{ model: Album, as: 'album', attributes: ['name', 'coverImg'] },
-					],
-				},
-				'albums',
-			],
-		});
-		res.json(artistData);
-	} catch (error) {
-		res.send(error.message);
-	}
+  try {
+    const artistData = await Artist.findByPk(req.params.id, {
+      include: [
+        {
+          model: Song,
+          as: 'songs',
+          include: [
+            { model: Album, as: 'album', attributes: ['name', 'coverImg'] },
+          ],
+        },
+        {
+          model: Song,
+          as: 'featuredSongs',
+          include: [
+            { model: Album, as: 'album', attributes: ['name', 'coverImg'] },
+          ],
+        },
+        'albums',
+      ],
+    });
+    res.json(artistData);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 // router.get('/:id', async (req, res, next) => {
 // 	try {
@@ -138,7 +138,7 @@ router.get('/:id', async (req, res, next) => {
 //   );
 //   // don't forget: catch((error) => next(error));
 // });
-/* 
+/*
 // add new artist to database
 router.post('/', (req, res, next) => {
 	mysqlCon.query(

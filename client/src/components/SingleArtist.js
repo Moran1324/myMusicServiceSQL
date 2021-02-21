@@ -17,19 +17,19 @@ function SingleArtist() {
     .then(
       (data) => {
         // if (data.length < 1);
-        const mainSongs = data.filter(song => {
+        const mainSongs = data.songs.filter(song => {
           return song.artistId === parseInt(params.id);
         })
         setArtistSongs(mainSongs);
-        setArtistName(mainSongs[0].artistName);
+        setArtistName(data.artistName);
 
-        const featuredSongs = data.filter(song => {
+        const featuredSongs = data.songs.filter(song => {
           return song.featuredArtistId === parseInt(params.id);
         });
         if (featuredSongs.length) {
           setArtistFeaturedSongs(featuredSongs);
         };
-        setArtistImg(data[0].artist.coverImg);
+        setArtistImg(data.coverImg);
       },
       (error) => {
         console.error('there was an error', error);
@@ -53,7 +53,7 @@ function SingleArtist() {
           <img src={`${artistImg}`} alt="Artist" className="artist-img"/>
           <h1>{artistName}</h1>
           <ul className="artist-songs-list" style={{ listStyleType: 'none' }}>
-            {artistSongs.map((song) => (
+            {artistSongs.length && artistSongs.map((song) => (
               <li key={song.id}>
                 <div className="artist-song">
                   <Link to={`/song/${song.id}?type=artist&id=${song.artistId}`} className="song-name">
@@ -62,7 +62,7 @@ function SingleArtist() {
                   </Link>
                   <Link to={`/artist/${song.artistId}`} className="artist-name">
                     Artist:
-                    {song.artist.artistName}
+                    {artistName}
                   </Link>
                   {song.featuredArtist
                     ? (

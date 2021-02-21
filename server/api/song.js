@@ -8,104 +8,104 @@ const router = Router();
 
 // get all songs
 router.get('/all', async (req, res, next) => {
-	try {
-		const songs = await Song.findAll({
-			include: ['artist', 'album', 'featuredArtist'],
-		});
-		res.json(songs);
-	} catch (error) {
-		res.send(error.message);
-	}
+  try {
+    const songs = await Song.findAll({
+      include: ['artist', 'album', 'featuredArtist'],
+    });
+    res.json(songs);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 // get top songs
 router.get('/top', async (req, res, next) => {
-	if (req.query.limit == null) {
-		res.status(400).send({ error: 'bad request' });
-		return;
-	}
-	const topLimit = parseInt(req.query.limit);
-	try {
-		const topSongs = await Song.findAll({
-			limit: topLimit,
-			include: ['artist', 'album', 'featuredArtist'],
-		});
-		res.json(topSongs);
-	} catch (error) {
-		res.send(error.message);
-	}
+  if (req.query.limit == null) {
+    res.status(400).send({ error: 'bad request' });
+    return;
+  }
+  const topLimit = parseInt(req.query.limit);
+  try {
+    const topSongs = await Song.findAll({
+      limit: topLimit,
+      include: ['artist', 'album', 'featuredArtist'],
+    });
+    res.json(topSongs);
+  } catch (error) {
+    res.send(error.message);
+  }
 });
 
 // get songs list by type and id
 router.get('/:id', async (req, res, next) => {
-	if (req.query.type == null) {
-		res.status(400).send({ error: 'bad request' });
-		return;
-	}
-	if (req.query.type === 'allSongs') {
-		try {
-			const songs = await Song.findAll({
-				include: ['artist', 'album', 'featuredArtist'],
-			});
-			res.json(songs);
-		} catch (error) {
-			res.send(error.message);
-		}
-		return;
-	}
+  if (req.query.type == null) {
+    res.status(400).send({ error: 'bad request' });
+    return;
+  }
+  if (req.query.type === 'allSongs') {
+    try {
+      const songs = await Song.findAll({
+        include: ['artist', 'album', 'featuredArtist'],
+      });
+      res.json(songs);
+    } catch (error) {
+      res.send(error.message);
+    }
+    return;
+  }
 
-	// songs list by artist
-	if (req.query.type === 'artist') {
-		try {
-			const artistSongs = await Song.findAll({
-				where: {
-					[Op.or]: [
-						{ artistId: req.query.id },
-						{ featuredArtistId: req.query.id },
-					],
-				},
-				include: ['artist', 'album', 'featuredArtist'],
-			});
-			res.json(artistSongs);
-		} catch (error) {
-			res.send(error.message);
-		}
-	}
+  // songs list by artist
+  if (req.query.type === 'artist') {
+    try {
+      const artistSongs = await Song.findAll({
+        where: {
+          [Op.or]: [
+            { artistId: req.query.id },
+            { featuredArtistId: req.query.id },
+          ],
+        },
+        include: ['artist', 'album', 'featuredArtist'],
+      });
+      res.json(artistSongs);
+    } catch (error) {
+      res.send(error.message);
+    }
+  }
 
-	// songs list by album
-	if (req.query.type === 'album') {
-		try {
-			const albumSongs = await Song.findAll({
-				where: { albumId: req.query.id },
-				include: ['album', 'artist', 'featuredArtist'],
-			});
-			res.json(albumSongs);
-		} catch (error) {
-			res.send(error.message);
-		}
-	}
+  // songs list by album
+  if (req.query.type === 'album') {
+    try {
+      const albumSongs = await Song.findAll({
+        where: { albumId: req.query.id },
+        include: ['album', 'artist', 'featuredArtist'],
+      });
+      res.json(albumSongs);
+    } catch (error) {
+      res.send(error.message);
+    }
+  }
 
-	// songs list by playlist
-	if (req.query.type === 'playlist') {
-		try {
-			const playlistSongs = await Song.findAll({
-				// where: { id: req.params.id },
-				include: [
-					'artist',
-					'album',
-					'featuredArtist',
-					{
-						model: Playlist,
-						as: 'playlist',
-						where: { id: req.query.id },
-					},
-				],
-			});
-			res.json(playlistSongs);
-		} catch (error) {
-			res.send(error.message);
-		}
-	}
+  // songs list by playlist
+  if (req.query.type === 'playlist') {
+    try {
+      const playlistSongs = await Song.findAll({
+        // where: { id: req.params.id },
+        include: [
+          'artist',
+          'album',
+          'featuredArtist',
+          {
+            model: Playlist,
+            as: 'playlist',
+            where: { id: req.query.id },
+          },
+        ],
+      });
+      res.json(playlistSongs);
+    } catch (error) {
+      res.send(error.message);
+    }
+  }
 });
 
 /*

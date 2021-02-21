@@ -25,7 +25,7 @@ module.exports = {
         "created_at": new Date(),
     "updated_at": new Date(),
     "artist_name": "Omer Adam",
-    "cover_img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Omeradam.jpg/220px-Omeradam.jpg"
+    "cover_img": "https://www.kolhair.co.il/wp-content/uploads/2019/11/0a3628d109758eaa0c5ae65f87a6507f.jpg"
   },
   {
         "created_at": new Date(),

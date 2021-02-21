@@ -1,19 +1,21 @@
 const express = require('express');
+const path = require('path');
 const formatDate = require('../helpers/dateStringFormat');
 
 const app = express();
 
 app.use(express.json());
 // app.use(express.urlencoded({ extended: true }));
-app.use(express.static('build'));
+// app.use(express.static('build'));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 function logger(req, res, next) {
-	console.log(
-		`request fired to: '${req.url}', Method: '${req.method}', at: ${formatDate(
-			Date.now()
-		)}`
-	);
-	next();
+  console.log(
+    `request fired to: '${req.url}', Method: '${req.method}', at: ${formatDate(
+      Date.now(),
+    )}`,
+  );
+  next();
 }
 app.use(logger);
 
@@ -22,24 +24,24 @@ app.use('/api', require('./api'));
 /// ERRORS SECTION
 
 const unknownEndpointHandler = (request, response) => {
-	response.status(404).send({ error: 'unknown endpoint' });
+  response.status(404).send({ error: 'unknown endpoint' });
 };
 
 // handler of requests with unknown endpoint
-app.use(unknownEndpointHandler);
+// app.use(unknownEndpointHandler);
 
 const errorHandler = (error, request, response, next) => {
-	console.error(error.message);
+  console.error(error.message);
 
-	// build here your error handler
-	if (error.code === 'ER_BAD_FIELD_ERROR') {
-		return response.status(400).send({ error: 'requested data was not found' });
-	}
-	if (error.field === 'ER_NO_DEFAULT_FOR_FIELD') {
-		return response.status(400).send({ error: 'necessary data was not sent' });
-	}
+  // build here your error handler
+  if (error.code === 'ER_BAD_FIELD_ERROR') {
+    return response.status(400).send({ error: 'requested data was not found' });
+  }
+  if (error.field === 'ER_NO_DEFAULT_FOR_FIELD') {
+    return response.status(400).send({ error: 'necessary data was not sent' });
+  }
 
-	next(error);
+  next(error);
 };
 
 // handler of requests with result to errors
